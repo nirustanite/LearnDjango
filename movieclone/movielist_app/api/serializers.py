@@ -2,23 +2,21 @@ from rest_framework import serializers
 
 from movielist_app.models import Movie
 
+
+def name_length(value):
+    if len(value) < 2:
+        raise serializers.ValidationError('Name is too short !!s')
+    else:
+        return value
+    
+
 class MovieSerializer(serializers.Serializer):
     # class Meta:
     #     model = Movie
     #     fields = '__all__'
-        
-    # def validate(self, data):
-    #     if data['name'] == data['description']:
-    #         raise serializers.ValidationError('Title and Description should be different!')
-    #     else:
-    #         return data
-    
-    # def validate_name(self, value):
-    #     if len(value) < 2:
-    #         raise serializers.ValidationError('Name is too short !!s')
-        
+
     id = serializers.IntegerField(read_only=True)
-    name= serializers.CharField()
+    name= serializers.CharField(validators=[name_length])
     description = serializers.CharField()
     active = serializers.BooleanField()
     
@@ -31,3 +29,9 @@ class MovieSerializer(serializers.Serializer):
         instance.active = validated_data.get('active', instance.active)
         instance.save()
         return instance
+    
+    def validate(self, data):
+        if data['name'] == data['description']:
+            raise serializers.ValidationError('Title and Description should be different!')
+        else:
+            return data
