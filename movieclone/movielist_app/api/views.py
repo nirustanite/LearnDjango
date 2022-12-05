@@ -1,12 +1,30 @@
 from django.shortcuts import render
-from movielist_app.api.serializers import WatchSerializer, StreamPlatformSerializer
-from movielist_app.models import WatchList, StreamPlatform
+from movielist_app.api.serializers import WatchSerializer, StreamPlatformSerializer, ReviewSerializer
+from movielist_app.models import WatchList, StreamPlatform, Reviews
 from rest_framework.response import Response
-from rest_framework import status
-# from rest_framework.decorators import api_view
 from rest_framework.views import APIView
+from rest_framework import status, generics, mixins
 
 # Create your views here.
+
+class ReviewList(mixins.ListModelMixin, mixins.CreateModelMixin, generics.GenericAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class= ReviewSerializer
+    
+    def get(self, request, *args, **kwargs):
+        return self.list(request, *args, **kwargs)
+    
+    def post(self, request, *args, **kwargs):
+        return self.create( request, *args, **kwargs)
+
+class ReviewDetail(mixins.RetrieveModelMixin, generics.GenericAPIView):
+    queryset = Reviews.objects.all()
+    serializer_class= ReviewSerializer
+    
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)
+    
+    
 
 class StreamPlatformAV(APIView):
     def get(self, request):
