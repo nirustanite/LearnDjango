@@ -8,6 +8,8 @@ class StreamPlatform(models.Model):
     about = models.CharField(max_length= 200)
     website = models.URLField(max_length=100)
     
+    objects = models.Manager()
+    
     def __str__(self) -> str:
         return self.name
 
