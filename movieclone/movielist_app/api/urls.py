@@ -2,12 +2,14 @@ from django.urls import path, include
 from rest_framework.routers import DefaultRouter
 from movielist_app.api.views import (WatchListAV, WatchDetailAV, StreamPlatformAV,
                                      StreamPlatformDetail, ReviewList, ReviewDetail, 
-                                     ReviewPerWatchList, CreateReviewPerWatchList, SeriesViewSet)
+                                     ReviewPerWatchList, CreateReviewPerWatchList,
+                                     SeriesViewSet, SeriesModelViewSet)
 
 
 
 router = DefaultRouter()
-router.register('series', SeriesViewSet, basename='series-list')
+router.register('series-viewset', SeriesViewSet, basename='series-viewset-list')
+router.register('series-list', SeriesModelViewSet, basename='series-list')
 
 urlpatterns = [
     path('list/', WatchListAV.as_view(), name='watch-list'),

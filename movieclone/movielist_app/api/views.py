@@ -8,6 +8,11 @@ from rest_framework import status, generics, mixins, viewsets
 
 # Create your views here.
 
+#ModelViewSet
+class SeriesModelViewSet(viewsets.ModelViewSet):
+    queryset = Series.objects.all()
+    serializer_class = SeriesSerializer
+
 #ViewSets
 class SeriesViewSet(viewsets.ViewSet):
     def list(self, request):
