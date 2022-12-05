@@ -6,6 +6,23 @@ from rest_framework.views import APIView
 from rest_framework import status, generics, mixins
 
 # Create your views here.
+
+#Creating Review per WatchList
+class CreateReviewPerWatchList(generics.CreateAPIView):
+    serializer_class= ReviewSerializer
+    
+    def perform_create(self, serializer):
+        pk = self.kwargs['pk']
+        watchlist = WatchList.objects.get(pk=pk)
+        serializer.save(watchlist=watchlist)
+
+#Overwriting QuerySet
+class ReviewPerWatchList(generics.ListAPIView):
+    serializer_class= ReviewSerializer
+    def get_queryset(self):
+        pk = self.kwargs['pk']
+        return Reviews.objects.filter(watchlist = pk)
+
  
 # Concrete View Classes   
 class ReviewList(generics.ListCreateAPIView):
