@@ -24,6 +24,17 @@ class WatchList(models.Model):
     def __str__(self) -> str:
         return self.title
     
+class Series(models.Model):
+    title =  models.CharField(max_length=50)
+    description = models.CharField(max_length=200)
+    num_of_episodes = models.PositiveIntegerField(validators=[MinValueValidator(1)])
+    active = models.BooleanField(default=True)
+    platform = models.ForeignKey(StreamPlatform, on_delete = models.CASCADE, related_name = "serieslist")
+    created = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self) -> str:
+        return self.title
+    
 
 class Reviews(models.Model):
     rating = models.PositiveIntegerField(validators=[MinValueValidator(1), MaxValueValidator(5)])
