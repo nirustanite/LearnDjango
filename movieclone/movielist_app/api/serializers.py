@@ -3,6 +3,7 @@ from movielist_app.models import StreamPlatform, WatchList, Reviews, Series
 
 
 class ReviewSerializer(serializers.ModelSerializer):
+    review_user = serializers.StringRelatedField(read_only = True)
     
     class Meta:
         model = Reviews
